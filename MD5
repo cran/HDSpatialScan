@@ -1,4 +1,4 @@
-4834cb81905ef03086882bb0de97e7e7 *DESCRIPTION
+03d46cd170257e8b9f6aeefb5d2e4f32 *DESCRIPTION
 9238acf22a269ad9cbbeabc99ce7f6de *NAMESPACE
 d135c039cde8e8056310863c80dbbc70 *R/RcppExports.R
 a7aecb6a90ca1fe311e1a08dd5613bcf *R/clusters.R
@@ -8,7 +8,7 @@ c44a609f1309ee2ddc9baa73ab7b8b8c *R/data_map_sites.R
 b8e404c4feb262614563324956b7d7da *R/data_multi_data.R
 46b3b5912a30930fae879b2ac4b04f83 *R/dfree.R
 994c1a3dcd1f72588b931c0d1881d5e7 *R/dfree_index_multi.R
-6b271003b10b1a2644a56631af12c492 *R/documentation_page.R
+36c748aa5e92fb5b732748c34610d682 *R/documentation_page.R
 56e9594f0ed3b7c709e159613362b6b4 *R/gaussian_multi.R
 da13ee3ed62bcbfc1a7abff9868f0ab4 *R/non_overlap.R
 e2873737a3603b1b867b09b792225326 *R/permutations.R
@@ -30,7 +30,7 @@ fbc6147bd25be4f1db8f417afa05aaa2 *R/scan_uni.R
 91e7c5ee66d20983929af1e889cc5747 *data/map_sites.rda
 8906380baee8bb329eafcedab9bc06a4 *data/multi_data.rda
 2a5dfb7a63c5add6f7f2a72b048e7c6c *man/DFFSS.Rd
-ca4aaddba4ea6e195490198f6b560add *man/HDSpatialScan-package.Rd
+0a3c039d5560cdcb1c3033f6ea00c863 *man/HDSpatialScan-package.Rd
 5edb27681fb81a93734521e680f644cc *man/MDFFSS.Rd
 f982ac22d2d45d94c9a9961fa90532ac *man/MG.Rd
 0cbfd3c64d8a7a57cd34173f1a54d1ed *man/MNP.Rd
