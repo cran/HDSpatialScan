@@ -13,7 +13,7 @@ pointwise_wmw_uni <- function(rank_data, matrix_clusters){
   nb_times <- ncol(rank_data)
   nb_clusters <- ncol(matrix_clusters)
 
-  Wt <- matrix(sapply(1:nb_clusters, function(cl) colSums(matrix(rank_data[which(matrix_clusters[,cl]==1),], ncol = nb_times))), ncol = nb_clusters)
+  Wt <- matrix(sapply(1:nb_clusters, function(cl) colSums(rank_data[which(matrix_clusters[,cl]==1),,drop = FALSE])), ncol = nb_clusters)
   stats_wmw <- matrix(sapply(1:nb_clusters, function(cl) (Wt[,cl] - sum(matrix_clusters[,cl])*(nrow(rank_data)+1)/2)/sqrt( sum(matrix_clusters[,cl])*(nrow(rank_data) - sum(matrix_clusters[,cl])) *(nrow(rank_data)+1) /12 )), ncol = nb_clusters)
 
   stat <- colMaxs(abs(stats_wmw))

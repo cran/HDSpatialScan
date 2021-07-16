@@ -22,14 +22,17 @@
 ##'
 ##'
 clusters <- function(sites_coord, system, mini, maxi, type_minimaxi, sites_areas){
-  if(length(system)!=1){
-    stop("Only one system must be specified")
-  }
   if(is.null(system)){
     stop("Specify a correct system: Euclidean or WGS84")
   }
+  if(length(system)!=1){
+    stop("Only one system must be specified")
+  }
   if(system != "Euclidean" & system != "WGS84"){
     stop("Specify a correct system: Euclidean or WGS84")
+  }
+  if(is(sites_coord, "matrix") == FALSE){
+    stop("sites_coord must be a matrix with two columns")
   }
   if(ncol(sites_coord)!=2){
     stop("sites_coord must be a matrix with two columns")
@@ -39,9 +42,10 @@ clusters <- function(sites_coord, system, mini, maxi, type_minimaxi, sites_areas
   }else{
     dists <- spDists(sites_coord, longlat = TRUE)
   }
-  if(typeof(mini)!="double" | typeof(maxi)!="double"){
-    stop("mini and maxi must be double")
+  if(is.numeric(mini)==FALSE | is.numeric(maxi)==FALSE){
+    stop("mini and maxi must be numeric")
   }
+
   if(mini>maxi){
     stop("mini must be smaller than maxi")
   }
@@ -50,8 +54,8 @@ clusters <- function(sites_coord, system, mini, maxi, type_minimaxi, sites_areas
   }
 
   indices <- which(duplicated(sites_coord, MARGIN = 1) == FALSE)
-  sites_coord_unique <- sites_coord[indices,]
-  dists_unique <- dists[indices,]
+  sites_coord_unique <- sites_coord[indices,, drop = FALSE]
+  dists_unique <- dists[indices,, drop = FALSE]
 
   dist_sites <- list()
   for(i in 1:nrow(sites_coord_unique)){
@@ -81,7 +85,7 @@ clusters <- function(sites_coord, system, mini, maxi, type_minimaxi, sites_areas
           if(is.null(sites_areas)==FALSE){
             # selection_cluster is the individuals
             # we select the indices of the non duplicated sites
-            non_dupl_sites <- selection_cluster[duplicated(matrix(sites_coord[selection_cluster,], ncol = 2), MARGIN = 1)==FALSE]
+            non_dupl_sites <- selection_cluster[duplicated(sites_coord[selection_cluster,, drop = FALSE], MARGIN = 1)==FALSE]
             tot_area <- sum(sites_areas[non_dupl_sites])
             areas[column] <- tot_area
           }
@@ -97,7 +101,7 @@ clusters <- function(sites_coord, system, mini, maxi, type_minimaxi, sites_areas
           if(is.null(sites_areas)==FALSE){
             # selection_cluster is the individuals
             # we select the indices of the non duplicated sites
-            non_dupl_sites <- selection_cluster[duplicated(matrix(sites_coord[selection_cluster,], ncol = 2), MARGIN = 1)==FALSE]
+            non_dupl_sites <- selection_cluster[duplicated(sites_coord[selection_cluster,, drop = FALSE], MARGIN = 1)==FALSE]
             tot_area <- sum(sites_areas[non_dupl_sites])
             areas[column] <- tot_area
           }
@@ -107,7 +111,7 @@ clusters <- function(sites_coord, system, mini, maxi, type_minimaxi, sites_areas
       if(type_minimaxi == "area"){
         # selection_cluster is the individuals
         # we select the indices of the non duplicated sites
-        non_dupl_sites <- selection_cluster[duplicated(matrix(sites_coord[selection_cluster,], ncol = 2), MARGIN = 1)==FALSE]
+        non_dupl_sites <- selection_cluster[duplicated(sites_coord[selection_cluster,, drop = FALSE], MARGIN = 1)==FALSE]
         tot_area <- sum(sites_areas[non_dupl_sites])
         if(tot_area<=maxi & tot_area >= mini){
           matrix_clusters[selection_cluster, column] <- 1
@@ -124,8 +128,8 @@ clusters <- function(sites_coord, system, mini, maxi, type_minimaxi, sites_areas
 
   a_suppr <- which(is.na(colSums(matrix_clusters)))
   if(length(a_suppr)>0){
-    matrix_clusters <- matrix_clusters[,-a_suppr]
-    centres <- centres[-a_suppr,]
+    matrix_clusters <- matrix_clusters[,-a_suppr,drop = FALSE]
+    centres <- centres[-a_suppr,,drop = FALSE]
     radius <- radius[-a_suppr]
 
     if(is.null(sites_areas)==FALSE){
@@ -137,8 +141,8 @@ clusters <- function(sites_coord, system, mini, maxi, type_minimaxi, sites_areas
 
     to_keep <- (duplicated(matrix_clusters, MARGIN = 2) == FALSE)
 
-    matrix_clusters <- matrix_clusters[,to_keep]
-    centres <- centres[to_keep,]
+    matrix_clusters <- matrix_clusters[,to_keep, drop = FALSE]
+    centres <- centres[to_keep,, drop = FALSE]
     radius <- radius[to_keep]
     if(is.null(sites_areas)==FALSE){
       areas <- areas[to_keep]

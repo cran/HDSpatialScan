@@ -13,7 +13,7 @@ wmw_uni <- function(rank_data, matrix_clusters){
   nb_permu <- ncol(rank_data)
   nb_clusters <- ncol(matrix_clusters)
 
-  W <- matrix(sapply(1:nb_clusters, function(cl) colSums(matrix(rank_data[which(matrix_clusters[,cl]==1),], ncol = nb_permu))), ncol = nb_clusters)
+  W <- matrix(sapply(1:nb_clusters, function(cl) colSums(rank_data[which(matrix_clusters[,cl]==1),,drop = FALSE])), ncol = nb_clusters)
   stats_wmw <- matrix(sapply(1:nb_clusters, function(cl) (W[,cl] - sum(matrix_clusters[,cl])*(nrow(rank_data)+1)/2)/sqrt( sum(matrix_clusters[,cl])*(nrow(rank_data) - sum(matrix_clusters[,cl])) *(nrow(rank_data)+1) /12 )), ncol = nb_clusters)
 
   stat <- abs(stats_wmw)

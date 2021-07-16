@@ -18,8 +18,8 @@ multi_WMW <- function(rank_data, matrix_clusters){
   coeff <- sum(rowSums(rank_data^2))
   coeff <- nb_var * nrow(rank_data) / coeff
 
-  mean_inside <- t(sapply(1:ncol(matrix_clusters), function(i) colMeans(matrix(rank_data[in_cluster[[i]],], ncol = nb_var))))
-  mean_outside <- t(sapply(1:ncol(matrix_clusters), function(i) colMeans(matrix(rank_data[-in_cluster[[i]],], ncol = nb_var))))
+  mean_inside <- t(sapply(1:ncol(matrix_clusters), function(i) colMeans(rank_data[in_cluster[[i]],,drop = FALSE])))
+  mean_outside <- t(sapply(1:ncol(matrix_clusters), function(i) colMeans(rank_data[-in_cluster[[i]],,drop = FALSE])))
 
   norm2_inside <- rowSums(mean_inside^2)
   norm2_outside <- rowSums(mean_outside^2)

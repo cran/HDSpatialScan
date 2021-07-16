@@ -14,11 +14,11 @@ multi_gaussian <- function(data, matrix_clusters){
 
   in_cluster <- lapply(1:ncol(matrix_clusters), function(j) which(matrix_clusters[,j]==1))
 
-  mean_inside <- t(sapply(1:ncol(matrix_clusters), function(j) colMeans(matrix(data[in_cluster[[j]],], ncol=ncol(data)))))
-  mean_outside <- t(sapply(1:ncol(matrix_clusters), function(j) colMeans(matrix(data[-in_cluster[[j]],], ncol=ncol(data)))))
+  mean_inside <- t(sapply(1:ncol(matrix_clusters), function(j) colMeans(data[in_cluster[[j]],,drop = FALSE])))
+  mean_outside <- t(sapply(1:ncol(matrix_clusters), function(j) colMeans(data[-in_cluster[[j]],, drop = FALSE])))
 
-  sum_inside <- lapply(1:ncol(matrix_clusters), function(j) (apply(matrix(data[in_cluster[[j]], ], ncol = ncol(data)), 1, FUN = "-", mean_inside[j, ])%*%t(apply(matrix(data[in_cluster[[j]], ], ncol = ncol(data)), 1, FUN = "-", mean_inside[j, ]))))
-  sum_outside <- lapply(1:ncol(matrix_clusters), function(j) (apply(matrix(data[-in_cluster[[j]], ], ncol = ncol(data)), 1, FUN = "-", mean_outside[j, ])%*%t(apply(matrix(data[-in_cluster[[j]], ], ncol = ncol(data)), 1, FUN = "-", mean_outside[j, ]))))
+  sum_inside <- lapply(1:ncol(matrix_clusters), function(j) (apply(data[in_cluster[[j]], , drop = FALSE], 1, FUN = "-", mean_inside[j, ])%*%t(apply(data[in_cluster[[j]], , drop = FALSE], 1, FUN = "-", mean_inside[j, ]))))
+  sum_outside <- lapply(1:ncol(matrix_clusters), function(j) (apply(data[-in_cluster[[j]], , drop = FALSE], 1, FUN = "-", mean_outside[j, ])%*%t(apply(data[-in_cluster[[j]], , drop = FALSE], 1, FUN = "-", mean_outside[j, ]))))
 
   stat <- sapply(1:ncol(matrix_clusters), function(j) det(sum_inside[[j]] + sum_outside[[j]]))
 

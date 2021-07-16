@@ -73,7 +73,7 @@ uni_fWMW <- function(signs, matrix_clusters){
   denominator <- sapply(1:ncol(matrix_clusters), function(c) sqrt(length(in_cluster[[c]]) * (nb_sites-length(in_cluster[[c]]))*(nb_sites+1)))
 
   for(c in 1:ncol(matrix_clusters)){
-    stats[c] <- sqrt(sum(colSums(matrix(signs[in_cluster[[c]],], ncol = nb_times))^2))/denominator[[c]]
+    stats[c] <- sqrt(sum(colSums(signs[in_cluster[[c]],,drop = FALSE])^2))/denominator[[c]]
   }
   return(stats)
 }

@@ -22,18 +22,18 @@ pointwise_dfree <- function(data, matrix_clusters)
 
   for(cl in 1:nb_clusters){
     if(n.k[cl] == 1){
-      var_out <- colVars(matrix(data[matrix_clusters1[,cl]==0,], ncol = ncol(data)))
+      var_out <- colVars(data[matrix_clusters1[,cl]==0,,drop = FALSE])
       sp2 <- (nb_sites - n.k[cl] - 1) * var_out / (nb_sites-2)
     }else{
-      var_out <- colVars(matrix(data[matrix_clusters1[,cl]==0,], ncol = ncol(data)))
-      var_in <- colVars(matrix(data[matrix_clusters1[,cl]==1,], ncol = ncol(data)))
+      var_out <- colVars(data[matrix_clusters1[,cl]==0,, drop = FALSE])
+      var_in <- colVars(data[matrix_clusters1[,cl]==1,, drop = FALSE])
       sp2 <- ( (n.k[cl] - 1) * var_in + (nb_sites - n.k[cl] - 1) * var_out ) / (nb_sites-2)
     }
 
     denominator <- sqrt(sp2 * (1/n.k[cl] + 1/(nb_sites - n.k[cl]) ))
 
-    mean_inside <- colMeans(matrix(data[matrix_clusters1[,cl]==1,], ncol = nb_times))
-    mean_outside <- colMeans(matrix(data[matrix_clusters1[,cl]==0,], ncol = nb_times))
+    mean_inside <- colMeans(data[matrix_clusters1[,cl]==1,, drop = FALSE])
+    mean_outside <- colMeans(data[matrix_clusters1[,cl]==0,, drop = FALSE])
 
     stat[cl] <- max(abs(mean_inside - mean_outside)/(denominator))
   }

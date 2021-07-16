@@ -6,77 +6,35 @@
 \usage{
 MNP(
   data,
-  sites_coord = NULL,
-  system = NULL,
-  mini = 1,
-  maxi = nrow(sites_coord)/2,
-  type_minimaxi = "sites/indiv",
-  mini_post = NULL,
-  maxi_post = NULL,
-  type_minimaxi_post = "sites/indiv",
-  sites_areas = NULL,
   MC = 999,
   typeI = 0.05,
-  nbCPU = 1
+  nbCPU = 1,
+  variable_names = NULL,
+  initialization,
+  permutations
 )
 }
 \arguments{
 \item{data}{matrix. Matrix of the data, the rows correspond to the sites (or the individuals if the observations are by individuals and not by sites) and each column represents a variable.}
-
-\item{sites_coord}{numeric matrix. Coordinates of the sites (or the individuals, in that case there can be many individuals with the same coordinates). If system = "WGS84" the first column corresponds to the longitude and the second to the latitude. If system = "Euclidean", the first column corresponds to the x and the second one to the y}
-
-\item{system}{character. System in which the coordinates are expressed: "Euclidean" or "WGS84".}
-
-\item{mini}{numeric. A minimum for the clusters (see type_minimaxi). Changing the default value may bias the inference.}
-
-\item{maxi}{numeric. A Maximum for the clusters (see type_minimaxi). Changing the default value may bias the inference.}
-
-\item{type_minimaxi}{character. Type of minimum and maximum: by default "sites/indiv": the mini and maxi are on the number of sites or individuals in the potential clusters. Other possible values are "area": the minimum and maximum area of the clusters, or "radius": the minimum and maximum radius.}
-
-\item{mini_post}{numeric. A minimum to filter the significant clusters a posteriori (see type_minimaxi_post). The default NULL is for no filtering with a a posteriori minimum.}
-
-\item{maxi_post}{numeric. A maximum to filter the significant clusters a posteriori (see type_minimaxi_post). The default NULL is for no filtering with a a posteriori maximum.}
-
-\item{type_minimaxi_post}{character. Type of minimum and maximum a posteriori: by default "sites/indiv": the mini_post and maxi_post are on the number of sites or individuals in the significant clusters. Other possible values are "area": the minimum and maximum area of the clusters, or "radius": the minimum and maximum radius.}
-
-\item{sites_areas}{numeric vector. Areas of the sites. It must contain the same number of elements than the rows of sites_coord. If the data is on individuals and not on sites, there can be duplicated values. By default: NULL}
 
 \item{MC}{numeric. Number of Monte-Carlo permutations to evaluate the statistical significance of the clusters. By default: 999.}
 
 \item{typeI}{numeric. The desired type I error. A cluster will be evaluated as significant if its associated p-value is less than typeI. By default 0.05.}
 
 \item{nbCPU}{numeric. Number of CPU. If nbCPU > 1 parallelization is done. By default: 1.}
+
+\item{variable_names}{character. Names of the variables. By default NULL}
+
+\item{initialization}{list. Initialization for the scan procedure (see \code{\link{InitScan}} for more details).}
+
+\item{permutations}{matrix. Indices of permutations of the data.}
 }
 \value{
-The list of the following elements:
-\itemize{
-\item sites_clusters: the index of the sites (or individuals) included in the significant clusters. The clusters are listed in their order of detection. The secondary clusters are defined according to Kulldorff.
-\item pval_clusters: the associated p-values
-\item centres_clusters: the coordinates of the centres of each cluster
-\item radius_clusters: the radius of the clusters in km if system = "WGS84" or in the coordinates unit otherwise
-\item areas_clusters: the areas of the clusters (in the same units as sites_areas). Only if sites_areas is not NULL.
-\item system: the system of coordinates
-}
+An object of class ResScanOutputMulti.
 }
 \description{
-This function returns the significant clusters and their associated p-value for the MNP
+This function computes the MNP (Multivariate Nonparametric scan statistic).
 }
-\examples{
-\donttest{
-library(sp)
-data("map_sites")
-data("multi_data")
-coords <- coordinates(map_sites)
-res_mnp <- MNP(data=multi_data, sites_coord = coords, system = "WGS84",
-mini = 1, maxi = nrow(coords)/2)}
-\dontshow{
-library(sp)
-data("map_sites")
-data("multi_data")
-indices <- which(map_sites$NAME_3 == "Lille")
-coords <- coordinates(map_sites[indices,])
-res_mnp <- MNP(data=multi_data[indices,], sites_coord = coords,
-system = "WGS84", mini = 1, maxi = nrow(coords)/2, MC = 99)
-}
-
+\references{
+Lionel Cucala and Michaël Genin and Florent Occelli and Julien Soula (2019). A Multivariate Nonparametric Scan Statistic for Spatial Data. Spatial statistics, 29, 1-14.
 }

@@ -11,6 +11,6 @@
 ##'
 ##'
 permutate <- function(to_permute, nb_permu){
-  simulation <- sapply(1:nb_permu, function(i) sample(x = to_permute, size = length(to_permute), replace = FALSE))
+  simulation <- matrix(sapply(1:nb_permu, function(i) sample(x = to_permute, size = length(to_permute), replace = FALSE)), ncol = nb_permu)
   return(t(simulation))
 }

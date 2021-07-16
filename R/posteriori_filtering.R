@@ -21,7 +21,7 @@ post_filt_nb_sites <- function(mini_post, maxi_post, nb_sites, index_clusters_te
   if(is.null(maxi_post)){
     maxi_post <- nb_sites
   }
-  index_clusters <- index_clusters_temp[which(colSums(matrix(matrix_clusters[,index_clusters_temp], nrow=nrow(matrix_clusters)))<=maxi_post & colSums(matrix(matrix_clusters[,index_clusters_temp], nrow=nrow(matrix_clusters)))>=mini_post)]
+  index_clusters <- index_clusters_temp[which(colSums(matrix_clusters[,index_clusters_temp, drop = FALSE])<=maxi_post & colSums(matrix_clusters[,index_clusters_temp, drop = FALSE])>=mini_post)]
 
   return(index_clusters)
 

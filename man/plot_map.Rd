@@ -23,32 +23,3 @@ No value returned, plots a map of the sites and the circular clusters.
 \description{
 This function plots a map of the sites and the circular clusters.
 }
-\examples{
-\donttest{
-library(sp)
-data("map_sites")
-data("funi_data")
-coords <- coordinates(map_sites)
-
-res_npfss <- NPFSS(data = funi_data, sites_coord = coords, system = "WGS84",
-mini = 1, maxi = nrow(coords)/2)
-
-
-plot_map(spobject = map_sites, centres = res_npfss$centres_clusters,
-radius = res_npfss$radius_clusters, system = "WGS84")}
-\dontshow{
-library(sp)
-data("map_sites")
-data("funi_data")
-indices <- which(map_sites$NAME_3 == "Lille")
-coords <- coordinates(map_sites[indices,])
-res_npfss <- NPFSS(data = funi_data[indices,], sites_coord = coords,
-system = "WGS84", mini = 1, maxi = nrow(coords)/2, MC = 99)
-if(length(res_npfss$sites_clusters)>0){
-plot_map(spobject = map_sites[indices,], centres = res_npfss$centres_clusters,
-radius = res_npfss$radius_clusters, system = "WGS84")
-}
-
-}
-
-}
