@@ -68,17 +68,18 @@ NPFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NULL
       }
     }
 
-
+    cat("Computation of the scan statistic \n")
     signs <- multi_signs_matrix(data)
     index <- multi_fWMW(signs, matrix_clusters)
-
+    cat("---Done--- \n")
+    cat("Estimation of the statistical significance \n")
     nb_clusters <- ncol(matrix_clusters)
     nb_sites <- nrow(matrix_clusters)
 
     num_cores <- detectCores()
 
     if(nbCPU <=1 | num_cores <2){
-      results <- lapply(1:MC, function(i) multi_fWMW(lapply(1:nb_sites, function(s) signs[[permutations[i,s]]]), matrix_clusters))
+      results <- pblapply(1:MC, function(i) multi_fWMW(lapply(1:nb_sites, function(s) signs[[permutations[i,s]]]), matrix_clusters))
     }else{
 
       if(num_cores < nbCPU){
@@ -87,18 +88,19 @@ NPFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NULL
 
       if(.Platform$OS.type == "windows"){
         cl <- makeCluster(nbCPU)
-        results <- parLapply(cl, 1:MC, function(i) multi_fWMW(lapply(1:nb_sites, function(s) signs[[permutations[i,s]]]), matrix_clusters))
+        results <- pblapply(1:MC, function(i) multi_fWMW(lapply(1:nb_sites, function(s) signs[[permutations[i,s]]]), matrix_clusters),cl=cl)
         stopCluster(cl)
 
       }else{
-        results <- mclapply(1:MC, function(i) multi_fWMW(lapply(1:nb_sites, function(s) signs[[permutations[i,s]]]), matrix_clusters), mc.cores = nbCPU)
+        results <- pblapply(1:MC, function(i) multi_fWMW(lapply(1:nb_sites, function(s) signs[[permutations[i,s]]]), matrix_clusters), cl = nbCPU)
       }
 
     }
     results <- matrix(unlist(results), ncol = nb_clusters, byrow = TRUE)
     stat_MC <- rowMaxs(results)
     pvals <- sapply(1:nb_clusters, function(j) (length(which(stat_MC >= index[j]))+1)/(MC+1))
-
+    cat("---Done--- \n")
+    cat("Finalization \n")
     index_clusters_temp <- which(pvals <= typeI)
 
     finalization <- FinScan(index_clusters_temp, index, filtering_post, type_minimaxi_post, mini_post, maxi_post, nb_sites, matrix_clusters, radius, areas, centres, pvals)
@@ -124,17 +126,18 @@ NPFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NULL
           stop("The number of elements in times must be the number of times in data")
         }
       }
-
+      cat("Computation of the scan statistic \n")
       signs <- uni_signs_matrix(data)
       index <- uni_fWMW(signs, matrix_clusters)
-
+      cat("---Done--- \n")
+      cat("Estimation of the statistical significance \n")
       nb_clusters <- ncol(matrix_clusters)
       nb_sites <- nrow(matrix_clusters)
 
       num_cores <- detectCores()
 
       if(nbCPU <=1 | num_cores <2){
-        results <- lapply(1:MC, function(i) uni_fWMW(signs[permutations[i,],], matrix_clusters))
+        results <- pblapply(1:MC, function(i) uni_fWMW(signs[permutations[i,],], matrix_clusters))
       }else{
 
         if(num_cores < nbCPU){
@@ -143,18 +146,19 @@ NPFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NULL
 
         if(.Platform$OS.type == "windows"){
           cl <- makeCluster(nbCPU)
-          results <- parLapply(cl, 1:MC, function(i) uni_fWMW(signs[permutations[i,],], matrix_clusters))
+          results <- pblapply(1:MC, function(i) uni_fWMW(signs[permutations[i,],], matrix_clusters),cl=cl)
           stopCluster(cl)
 
         }else{
-          results <- mclapply(1:MC, function(i) uni_fWMW(signs[permutations[i,],], matrix_clusters), mc.cores = nbCPU)
+          results <- pblapply(1:MC, function(i) uni_fWMW(signs[permutations[i,],], matrix_clusters), cl = nbCPU)
         }
 
       }
       results <- matrix(unlist(results), ncol = nb_clusters, byrow = TRUE)
       stat_MC <- rowMaxs(results)
       pvals <- sapply(1:nb_clusters, function(j) (length(which(stat_MC >= index[j]))+1)/(MC+1))
-
+      cat("---Done--- \n")
+      cat("Finalization \n")
       index_clusters_temp <- which(pvals <= typeI)
 
       finalization <- FinScan(index_clusters_temp, index, filtering_post, type_minimaxi_post, mini_post, maxi_post, nb_sites, matrix_clusters, radius, areas, centres, pvals)
@@ -218,16 +222,17 @@ PFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, times = NULL, initiali
         stop("The number of elements in times must be the number of times in data")
       }
     }
-
+    cat("Computation of the scan statistic \n")
     index <- fanova_cpp(data, matrix_clusters)
-
+    cat("---Done--- \n")
+    cat("Estimation of the statistical significance \n")
     nb_clusters <- ncol(matrix_clusters)
     nb_sites <- nrow(matrix_clusters)
 
     num_cores <- detectCores()
 
     if(nbCPU <=1 | num_cores <2){
-      results <- lapply(1:MC, function(i) fanova_cpp(data[permutations[i,],], matrix_clusters))
+      results <- pblapply(1:MC, function(i) fanova_cpp(data[permutations[i,],], matrix_clusters))
     }else{
       if(num_cores < nbCPU){
         nbCPU <- num_cores
@@ -235,17 +240,18 @@ PFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, times = NULL, initiali
 
       if(.Platform$OS.type == "windows"){
         cl <- makeCluster(nbCPU)
-        results <- parLapply(cl, 1:MC, function(i) fanova_cpp(data[permutations[i,],], matrix_clusters))
+        results <- pblapply(1:MC, function(i) fanova_cpp(data[permutations[i,],], matrix_clusters),cl=cl)
         stopCluster(cl)
 
       }else{
-        results <- mclapply(1:MC, function(i) fanova_cpp(data[permutations[i,],], matrix_clusters), mc.cores = nbCPU)
+        results <- pblapply(1:MC, function(i) fanova_cpp(data[permutations[i,],], matrix_clusters), cl = nbCPU)
       }
     }
     results <- matrix(unlist(results), ncol = nb_clusters, byrow = TRUE)
     stat_MC <- rowMaxs(results)
     pvals <- sapply(1:nb_clusters, function(j) (length(which(stat_MC >= index[j]))+1)/(MC+1))
-
+    cat("---Done--- \n")
+    cat("Finalization \n")
     index_clusters_temp <- which(pvals <= typeI)
 
     finalization <- FinScan(index_clusters_temp, index, filtering_post, type_minimaxi_post, mini_post, maxi_post, nb_sites, matrix_clusters, radius, areas, centres, pvals)
@@ -335,7 +341,7 @@ MPFSS <- function(data, MC = 999, typeI = 0.05, method = c("LH","W","P","R"), nb
     nb_sites <- nrow(matrix_clusters)
     nb_times <- ncol(data[[1]])
     nb_var <- nrow(data[[1]])
-
+    cat("Computation of the scan statistic \n")
     mean_tot <- matrix(0, nrow = nb_var, ncol = nb_times)
     for(i in 1:nb_sites){
       mean_tot <- mean_tot + data[[i]]
@@ -351,15 +357,16 @@ MPFSS <- function(data, MC = 999, typeI = 0.05, method = c("LH","W","P","R"), nb
     cst2 <- cst2 * nb_sites / nb_times
 
     index <- fmanova_cpp(data, matrix_clusters, cst1, cst2)
-    index_LH <- index$LH
-    index_W <- index$W
-    index_P <- index$P
-    index_R <- index$R
-
+    index_LH <- as.vector(index$LH)
+    index_W <- as.vector(index$W)
+    index_P <- as.vector(index$P)
+    index_R <- as.vector(index$R)
+    cat("---Done--- \n")
+    cat("Estimation of the statistical significance \n")
     num_cores <- detectCores()
 
     if(nbCPU <=1 | num_cores <2){
-      results <- lapply(1:MC, function(i) fmanova_cpp(lapply(1:nb_sites, function(s) data[[permutations[i,s]]]), matrix_clusters, cst1, cst2))
+      results <- pblapply(1:MC, function(i) fmanova_cpp(lapply(1:nb_sites, function(s) data[[permutations[i,s]]]), matrix_clusters, cst1, cst2))
       results <- purrr::transpose(results)
     }else{
       if(num_cores < nbCPU){
@@ -368,16 +375,17 @@ MPFSS <- function(data, MC = 999, typeI = 0.05, method = c("LH","W","P","R"), nb
 
       if(.Platform$OS.type == "windows"){
         cl <- makeCluster(nbCPU)
-        results <- parLapply(cl, 1:MC, function(i) fmanova_cpp(lapply(1:nb_sites, function(s) data[[permutations[i,s]]]), matrix_clusters, cst1, cst2))
+        results <- pblapply(1:MC, function(i) fmanova_cpp(lapply(1:nb_sites, function(s) data[[permutations[i,s]]]), matrix_clusters, cst1, cst2),cl=cl)
         stopCluster(cl)
 
       }else{
-        results <- mclapply(1:MC, function(i) fmanova_cpp(lapply(1:nb_sites, function(s) data[[permutations[i,s]]]), matrix_clusters, cst1, cst2), mc.cores = nbCPU)
+        results <- pblapply(1:MC, function(i) fmanova_cpp(lapply(1:nb_sites, function(s) data[[permutations[i,s]]]), matrix_clusters, cst1, cst2), cl = nbCPU)
       }
 
       results <- purrr::transpose(results)
     }
-
+    cat("---Done--- \n")
+    cat("Finalization \n")
     if("LH" %in% method){
       results_LH <- results$LH
       results_LH <- matrix(unlist(results_LH), ncol = nb_clusters, byrow = TRUE)
@@ -491,16 +499,17 @@ DFFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, times = NULL, initial
     }
 
     nb_sites <- nrow(matrix_clusters)
-
+    cat("Computation of the scan statistic \n")
     index <- pointwise_dfree(data, matrix_clusters)
-
+    cat("---Done--- \n")
+    cat("Estimation of the statistical significance \n")
     nb_clusters <- ncol(matrix_clusters)
     nb_sites <- nrow(matrix_clusters)
 
     num_cores <- detectCores()
 
     if(nbCPU <=1 | num_cores <2){
-      results <- lapply(1:MC, function(i) pointwise_dfree(data[permutations[i,],], matrix_clusters))
+      results <- pblapply(1:MC, function(i) pointwise_dfree(data[permutations[i,],], matrix_clusters))
     }else{
       if(num_cores < nbCPU){
         nbCPU <- num_cores
@@ -508,17 +517,18 @@ DFFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, times = NULL, initial
 
       if(.Platform$OS.type == "windows"){
         cl <- makeCluster(nbCPU)
-        results <- parLapply(cl, 1:MC, function(i) pointwise_dfree(data[permutations[i,],], matrix_clusters))
+        results <- pblapply(1:MC, function(i) pointwise_dfree(data[permutations[i,],], matrix_clusters),cl=cl)
         stopCluster(cl)
 
       }else{
-        results <- mclapply(1:MC, function(i) pointwise_dfree(data[permutations[i,],], matrix_clusters), mc.cores = nbCPU)
+        results <- pblapply(1:MC, function(i) pointwise_dfree(data[permutations[i,],], matrix_clusters), cl = nbCPU)
       }
     }
     results <- matrix(unlist(results), ncol = nb_clusters, byrow = TRUE)
     stat_MC <- rowMaxs(results)
     pvals <- sapply(1:nb_clusters, function(j) (length(which(stat_MC >= index[j]))+1)/(MC+1))
-
+    cat("---Done--- \n")
+    cat("Finalization \n")
     index_clusters_temp <- which(pvals <= typeI)
 
     finalization <- FinScan(index_clusters_temp, index, filtering_post, type_minimaxi_post, mini_post, maxi_post, nb_sites, matrix_clusters, radius, areas, centres, pvals)
@@ -553,7 +563,6 @@ DFFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, times = NULL, initial
 ##'
 ##'
 MDFFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NULL, times = NULL, initialization, permutations){
-
   filtering_post = initialization$filtering_post
   matrix_clusters = initialization$matrix_clusters
   centres = initialization$centres
@@ -564,7 +573,6 @@ MDFFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NUL
   mini_post = initialization$mini_post
   maxi_post = initialization$maxi_post
   type_minimaxi_post = initialization$type_minimaxi_post
-
   if(is(data, "list")){
     if(length(data)!=nrow(matrix_clusters)){
       stop("The data must contain the same number of sites than the matrix of clusters")
@@ -599,17 +607,16 @@ MDFFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NUL
         stop("The number of elements in times must be the number of times in data")
       }
     }
-
-
+    cat("Computation of the scan statistic \n")
     nb_sites <- nrow(matrix_clusters)
     nb_clusters <- ncol(matrix_clusters)
-
     index <- dfree_index_multi(data, matrix_clusters)
-
+    cat("---Done--- \n")
+    cat("Estimation of the statistical significance \n")
     num_cores <- detectCores()
 
     if(nbCPU <=1 | num_cores <2){
-      results <- lapply(1:MC, function(i) dfree_index_multi(lapply(1:nb_sites, function(s) data[[permutations[i,s]]]), matrix_clusters))
+      results <- pblapply(1:MC, function(i) dfree_index_multi(lapply(1:nb_sites, function(s) data[[permutations[i,s]]]), matrix_clusters))
     }else{
       if(num_cores < nbCPU){
         nbCPU <- num_cores
@@ -617,21 +624,21 @@ MDFFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NUL
 
       if(.Platform$OS.type == "windows"){
         cl <- makeCluster(nbCPU)
-        results <- parLapply(cl, 1:MC, function(i) dfree_index_multi(lapply(1:nb_sites, function(s) data[[permutations[i,s]]]), matrix_clusters))
+        results <- pblapply(1:MC, function(i) dfree_index_multi(lapply(1:nb_sites, function(s) data[[permutations[i,s]]]), matrix_clusters),cl=cl)
         stopCluster(cl)
 
       }else{
-        results <- mclapply(1:MC, function(i) dfree_index_multi(lapply(1:nb_sites, function(s) data[[permutations[i,s]]]), matrix_clusters), mc.cores = nbCPU)
+        results <- pblapply(1:MC, function(i) dfree_index_multi(lapply(1:nb_sites, function(s) data[[permutations[i,s]]]), matrix_clusters), cl = nbCPU)
       }
     }
 
     results <- matrix(unlist(results), ncol = nb_clusters, byrow = TRUE)
     stat_MC <- rowMaxs(results)
     pvals <- sapply(1:nb_clusters, function(j) (length(which(stat_MC >= index[j]))+1)/(MC+1))
+    cat("---Done--- \n")
+    cat("Finalization \n")
     index_clusters_temp <- which(pvals <= typeI)
-
     finalization <- FinScan(index_clusters_temp, index, filtering_post, type_minimaxi_post, mini_post, maxi_post, nb_sites, matrix_clusters, radius, areas, centres, pvals)
-
   }else{
     stop("The data must be a list")
   }
@@ -710,7 +717,7 @@ MRBFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NUL
       }
     }
 
-
+    cat("Computation of the scan statistic \n")
     new_data <- transform_data(data)
 
     nb_clusters <- ncol(matrix_clusters)
@@ -718,11 +725,12 @@ MRBFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NUL
     nb_times <- ncol(data[[1]])
 
     index <- pointwise_wmw_multi(new_data, matrix_clusters)
-
+    cat("---Done--- \n")
+    cat("Estimation of the statistical significance \n")
     num_cores <- detectCores()
 
     if(nbCPU <=1 | num_cores <2){
-      results <- lapply(1:MC, function(i) pointwise_wmw_multi(lapply(1:nb_times, function(t) new_data[[t]][permutations[i,],]), matrix_clusters))
+      results <- pblapply(1:MC, function(i) pointwise_wmw_multi(lapply(1:nb_times, function(t) new_data[[t]][permutations[i,],]), matrix_clusters))
     }else{
 
       if(num_cores < nbCPU){
@@ -731,17 +739,19 @@ MRBFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NUL
 
       if(.Platform$OS.type == "windows"){
         cl <- makeCluster(nbCPU)
-        results <- parLapply(cl, 1:MC, function(i) pointwise_wmw_multi(lapply(1:nb_times, function(t) new_data[[t]][permutations[i,],]), matrix_clusters))
+        results <- pblapply(1:MC, function(i) pointwise_wmw_multi(lapply(1:nb_times, function(t) new_data[[t]][permutations[i,],]), matrix_clusters),cl=cl)
         stopCluster(cl)
 
       }else{
-        results <- mclapply(1:MC, function(i) pointwise_wmw_multi(lapply(1:nb_times, function(t) new_data[[t]][permutations[i,],]), matrix_clusters), mc.cores = nbCPU)
+        results <- pblapply(1:MC, function(i) pointwise_wmw_multi(lapply(1:nb_times, function(t) new_data[[t]][permutations[i,],]), matrix_clusters), cl = nbCPU)
       }
     }
 
     results <- matrix(unlist(results), ncol = nb_clusters, byrow = TRUE)
     stat_MC <- rowMaxs(results)
     pvals <- sapply(1:nb_clusters, function(j) (length(which(stat_MC >= index[j]))+1)/(MC+1))
+    cat("---Done--- \n")
+    cat("Finalization \n")
     index_clusters_temp <- which(pvals <= typeI)
 
     finalization <- FinScan(index_clusters_temp, index, filtering_post, type_minimaxi_post, mini_post, maxi_post, nb_sites, matrix_clusters, radius, areas, centres, pvals)
@@ -804,20 +814,21 @@ URBFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, times = NULL, initia
         stop("The number of elements in times must be the number of times in data")
       }
     }
-
+    cat("Computation of the scan statistic \n")
     nb_sites <- nrow(matrix_clusters)
 
     rank_data <- t(colRanks(data, ties.method = "average"))
 
     index <- pointwise_wmw_uni(rank_data, matrix_clusters)
-
+    cat("---Done--- \n")
+    cat("Estimation of the statistical significance \n")
     nb_clusters <- ncol(matrix_clusters)
     nb_sites <- nrow(matrix_clusters)
 
     num_cores <- detectCores()
 
     if(nbCPU <=1 | num_cores <2){
-      results <- lapply(1:MC, function(i) pointwise_wmw_uni(rank_data[permutations[i,],], matrix_clusters))
+      results <- pblapply(1:MC, function(i) pointwise_wmw_uni(rank_data[permutations[i,],], matrix_clusters))
     }else{
       if(num_cores < nbCPU){
         nbCPU <- num_cores
@@ -825,17 +836,18 @@ URBFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, times = NULL, initia
 
       if(.Platform$OS.type == "windows"){
         cl <- makeCluster(nbCPU)
-        results <- parLapply(cl, 1:MC, function(i) pointwise_wmw_uni(rank_data[permutations[i,],], matrix_clusters))
+        results <- pblapply(1:MC, function(i) pointwise_wmw_uni(rank_data[permutations[i,],], matrix_clusters),cl=cl)
         stopCluster(cl)
 
       }else{
-        results <- mclapply(1:MC, function(i) pointwise_wmw_uni(rank_data[permutations[i,],], matrix_clusters), mc.cores = nbCPU)
+        results <- pblapply(1:MC, function(i) pointwise_wmw_uni(rank_data[permutations[i,],], matrix_clusters), cl = nbCPU)
       }
     }
     results <- matrix(unlist(results), ncol = nb_clusters, byrow = TRUE)
     stat_MC <- rowMaxs(results)
     pvals <- sapply(1:nb_clusters, function(j) (length(which(stat_MC >= index[j]))+1)/(MC+1))
-
+    cat("---Done--- \n")
+    cat("Finalization \n")
     index_clusters_temp <- which(pvals <= typeI)
 
     finalization <- FinScan(index_clusters_temp, index, filtering_post, type_minimaxi_post, mini_post, maxi_post, nb_sites, matrix_clusters, radius, areas, centres, pvals)

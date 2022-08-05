@@ -13,7 +13,7 @@
 pointwise_wmw_multi <- function(transform_data, matrix_clusters){
   nb_times <- length(transform_data)
 
-  stats_wmw <- sapply(1:nb_times, function(time) multi_WMW(rank_data = transform_data[[time]], matrix_clusters = matrix_clusters))
+  stats_wmw <- sapply(1:nb_times, function(time) as.vector(mwmw_opti_cpp(rank_data = transform_data[[time]], matrix_clusters = matrix_clusters)))
 
   stat2 <- rowMaxs(stats_wmw)
 

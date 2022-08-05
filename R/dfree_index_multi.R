@@ -17,7 +17,6 @@ dfree_index_multi <- function(data, matrix_clusters){
   nb_times <- ncol(data[[1]])
 
   nb_var <- nrow(data[[1]])
-
   data_transp <- list()
 
   for(time in 1:nb_times){
@@ -26,7 +25,6 @@ dfree_index_multi <- function(data, matrix_clusters){
       data_transp[[time]][,process] <- data[[process]][,time]
     }
   }
-
   temp <- pointwise_mtest_cpp(data_transp, matrix_clusters)
   return(temp$stat2[,1])
 }

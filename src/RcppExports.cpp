@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // fanova_cpp
 arma::vec fanova_cpp(arma::mat data, arma::mat matrix_clusters);
 RcppExport SEXP _HDSpatialScan_fanova_cpp(SEXP dataSEXP, SEXP matrix_clustersSEXP) {
@@ -32,6 +37,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// mwmw_opti_cpp
+arma::vec mwmw_opti_cpp(arma::mat rank_data, arma::mat matrix_clusters);
+RcppExport SEXP _HDSpatialScan_mwmw_opti_cpp(SEXP rank_dataSEXP, SEXP matrix_clustersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type rank_data(rank_dataSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type matrix_clusters(matrix_clustersSEXP);
+    rcpp_result_gen = Rcpp::wrap(mwmw_opti_cpp(rank_data, matrix_clusters));
+    return rcpp_result_gen;
+END_RCPP
+}
 // pointwise_mtest_cpp
 List pointwise_mtest_cpp(List data_transp, arma::mat matrix_clusters);
 RcppExport SEXP _HDSpatialScan_pointwise_mtest_cpp(SEXP data_transpSEXP, SEXP matrix_clustersSEXP) {
@@ -48,6 +65,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_HDSpatialScan_fanova_cpp", (DL_FUNC) &_HDSpatialScan_fanova_cpp, 2},
     {"_HDSpatialScan_fmanova_cpp", (DL_FUNC) &_HDSpatialScan_fmanova_cpp, 4},
+    {"_HDSpatialScan_mwmw_opti_cpp", (DL_FUNC) &_HDSpatialScan_mwmw_opti_cpp, 2},
     {"_HDSpatialScan_pointwise_mtest_cpp", (DL_FUNC) &_HDSpatialScan_pointwise_mtest_cpp, 2},
     {NULL, NULL, 0}
 };

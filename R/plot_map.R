@@ -34,7 +34,7 @@ plot_schema <- function(output_clusters, sites_coord, system, system_conv = NULL
     if(is.character(system_conv) == FALSE){
       stop("system_conv must be a character")
     }else{
-      new_coords <- suppressWarnings(rgdal::project(sites_coord, system_conv))
+      new_coords <- suppressWarnings(sf::sf_project("+proj=longlat", system_conv, sites_coord))
     }
   }else{
     new_coords <- sites_coord

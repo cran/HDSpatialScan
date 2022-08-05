@@ -217,6 +217,7 @@ SpatialScan <- function(method, data, sites_coord = NULL, system = NULL, mini = 
 
   # passed the data type check
 
+
   initialization <- InitScan(mini_post, maxi_post, type_minimaxi_post, sites_areas, sites_coord, system, mini, maxi, type_minimaxi)
 
   nb_sites <- nrow(initialization$matrix_clusters)
@@ -227,51 +228,73 @@ SpatialScan <- function(method, data, sites_coord = NULL, system = NULL, mini = 
   output <- list()
 
   if("UG" %in% method){
+    cat("##### Univariate Gaussian scan procedure ##### \n")
     output[["UG"]] <- UG(data = data, MC = MC, typeI = typeI, initialization = initialization, permutations = permutations)
+    cat("====================================================== \n")
   }
 
   if("UNP" %in% method){
+    cat("##### Univariate nonparametric scan statistic ##### \n")
     output[["UNP"]] <- UNP(data = data, MC = MC, typeI = typeI, initialization = initialization, permutations = permutations)
+    cat("====================================================== \n")
   }
 
   if("MG" %in% method){
+    cat("##### Multivariate Gaussian scan statistic ##### \n")
     output[["MG"]] <- MG(data = data, MC = MC, typeI = typeI, nbCPU = nbCPU, variable_names = variable_names, initialization = initialization, permutations = permutations)
+    cat("====================================================== \n")
   }
 
   if("MNP" %in% method){
+    cat("##### Multivariate nonparametric scan statistic ##### \n")
     output[["MNP"]] <- MNP(data = data, MC = MC, typeI = typeI, nbCPU = nbCPU, variable_names = variable_names, initialization = initialization, permutations = permutations)
+    cat("====================================================== \n")
   }
 
   if("NPFSS" %in% method){
+    cat("##### Nonparametric functional scan statistic ##### \n")
     output[["NPFSS"]] <- NPFSS(data = data, MC = MC, typeI = typeI, nbCPU = nbCPU, variable_names = variable_names, times = times, initialization = initialization, permutations = permutations)
+    cat("====================================================== \n")
   }
 
   if("PFSS" %in% method){
+    cat("##### Parametric functional scan statistic ##### \n")
     output[["PFSS"]] <- PFSS(data = data, MC = MC, typeI = typeI, nbCPU = nbCPU, times = times, initialization = initialization, permutations = permutations)
+    cat("====================================================== \n")
   }
 
   if("DFFSS" %in% method){
+    cat("##### Distribution-free functional scan statistic ##### \n")
     output[["DFFSS"]] <- DFFSS(data = data, MC = MC, typeI = typeI, nbCPU = nbCPU, times = times, initialization = initialization, permutations = permutations)
+    cat("====================================================== \n")
   }
 
   if("URBFSS" %in% method){
+    cat("##### Univariate rank-based functional scan statistic ##### \n")
     output[["URBFSS"]] <- URBFSS(data = data, MC = MC, typeI = typeI, nbCPU = nbCPU, times = times, initialization = initialization, permutations = permutations)
+    cat("====================================================== \n")
   }
 
   if("MDFFSS" %in% method){
+    cat("##### Multivariate distribution-free functional scan statistic ##### \n")
     output[["MDFFSS"]] <- MDFFSS(data = data, MC = MC, typeI = typeI, nbCPU = nbCPU, variable_names = variable_names, times = times, initialization = initialization, permutations = permutations)
+    cat("====================================================== \n")
   }
 
   if("MRBFSS" %in% method){
+    cat("##### Multivariate rank-based functional scan statistic ##### \n")
     output[["MRBFSS"]] <- MRBFSS(data = data, MC = MC, typeI = typeI, nbCPU = nbCPU, variable_names = variable_names, times = times, initialization = initialization, permutations = permutations)
+    cat("====================================================== \n")
   }
 
   if("MPFSS" %in% method){
+    cat("##### Parametric multivariate functional scan statistic ##### \n")
     temp <- MPFSS(data = data, MC = MC, typeI = typeI, method = c("LH","W","P","R"), nbCPU = nbCPU, variable_names = variable_names, times = times, initialization = initialization, permutations = permutations)
     output[["MPFSS-LH"]] <- temp$LH
     output[["MPFSS-W"]] <- temp$W
     output[["MPFSS-P"]] <- temp$P
     output[["MPFSS-R"]] <- temp$R
+    cat("====================================================== \n")
   }else{
     methods_mpfss <- c()
     if("MPFSS-LH" %in% method){
@@ -288,6 +311,7 @@ SpatialScan <- function(method, data, sites_coord = NULL, system = NULL, mini = 
     }
 
     if(length(methods_mpfss)>0){
+      cat("##### Parametric multivariate functional scan statistic ##### \n")
       temp <- MPFSS(data = data, MC = MC, typeI = typeI, method = methods_mpfss, nbCPU = nbCPU, variable_names = variable_names, times = times, initialization = initialization, permutations = permutations)
       if("MPFSS-LH" %in% method){
         output[["MPFSS-LH"]] <- temp$LH
@@ -301,6 +325,7 @@ SpatialScan <- function(method, data, sites_coord = NULL, system = NULL, mini = 
       if("MPFSS-R" %in% method){
         output[["MPFSS-R"]] <- temp$R
       }
+      cat("====================================================== \n")
     }
   }
 

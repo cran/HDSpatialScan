@@ -9,6 +9,10 @@ fmanova_cpp <- function(jeu, matrice_clusters, cst1, cst2) {
     .Call('_HDSpatialScan_fmanova_cpp', PACKAGE = 'HDSpatialScan', jeu, matrice_clusters, cst1, cst2)
 }
 
+mwmw_opti_cpp <- function(rank_data, matrix_clusters) {
+    .Call('_HDSpatialScan_mwmw_opti_cpp', PACKAGE = 'HDSpatialScan', rank_data, matrix_clusters)
+}
+
 pointwise_mtest_cpp <- function(data_transp, matrix_clusters) {
     .Call('_HDSpatialScan_pointwise_mtest_cpp', PACKAGE = 'HDSpatialScan', data_transp, matrix_clusters)
 }

@@ -5,8 +5,8 @@
 ##' \tabular{ll}{
 ##' Package: \tab HDSpatialScan\cr
 ##' Type: \tab Package\cr
-##' Version: \tab 1.0.2\cr
-##' Date: \tab 2021-07-16\cr
+##' Version: \tab 1.0.3\cr
+##' Date: \tab 2022-07-26\cr
 ##' License: \tab GPL-3\cr
 ##' LazyLoad: \tab yes\cr
 ##' }
@@ -18,6 +18,7 @@
 ##' @keywords package
 ##' @import Rcpp
 ##' @import parallel
+##' @import pbapply
 ##' @import purrr
 ##' @import matrixStats
 ##' @import SpatialNP
@@ -25,8 +26,8 @@
 ##' @import DT
 ##' @import TeachingDemos
 ##' @import plotrix
+##' @import sf
 ##' @import fmsb
-##' @import rgdal
 ##' @import swfscMisc
 ##' @importFrom rgeos gUnaryUnion
 ##' @importFrom graphics legend lines par points
