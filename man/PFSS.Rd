@@ -36,5 +36,5 @@ An object of class ResScanOutputUniFunct.
 This function computes the PFSS (Parametric Functional scan statistic).
 }
 \references{
-Camille Frévent and Mohamed-Salem Ahmed and Matthieu Marbac and Michaël Genin. Detecting Spatial Clusters in Functional Data: New Scan Statistic Approaches. Pre-print <arXiv:2011.03482>.
+Camille Frévent and Mohamed-Salem Ahmed and Matthieu Marbac and Michaël Genin (2021). Detecting Spatial Clusters in Functional Data: New Scan Statistic Approaches. Spatial Statistics, 46.
 }

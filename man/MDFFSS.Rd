@@ -39,5 +39,5 @@ An object of class ResScanOutputMultiFunct.
 This function computes the MDFFSS (Multivariate Distribution-Free Functional scan statistic).
 }
 \references{
-Camille Frévent and Mohamed-Salem Ahmed and Sophie Dabo-Niang and Michaël Genin. Investigating Spatial Scan Statistics for Multivariate Functional Data. Pre-print <arXiv:2103.14401>.
+Camille Frévent and Mohamed-Salem Ahmed and Sophie Dabo-Niang and Michaël Genin (2023). Investigating Spatial Scan Statistics for Multivariate Functional Data. Journal of the Royal Statistical Society Series C: Applied Statistics, 72(2), 450-475.
 }

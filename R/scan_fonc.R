@@ -15,7 +15,7 @@
 ##'
 ##' @return An object of class ResScanOutputUniFunct or ResScanOutputMultiFunct depending on the data
 ##'
-##' @references Zaineb Smida and Lionel Cucala and Ali Gannoun. A Nonparametric Spatial Scan Statistic for Functional Data. Pre-print <https://hal.archives-ouvertes.fr/hal-02908496>.
+##' @references Zaineb Smida and Lionel Cucala and Ali Gannoun and Ghislain Durif (2022). A Wilcoxon-Mann-Whitney spatial scan statistic for functional data. Computational Statistics & Data Analysis, 167.
 ##'
 ##'
 NPFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NULL, times = NULL, initialization, permutations){
@@ -190,7 +190,7 @@ NPFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NULL
 ##'
 ##' @return An object of class ResScanOutputUniFunct.
 ##'
-##' @references Camille Frévent and Mohamed-Salem Ahmed and Matthieu Marbac and Michaël Genin. Detecting Spatial Clusters in Functional Data: New Scan Statistic Approaches. Pre-print <arXiv:2011.03482>.
+##' @references Camille Frévent and Mohamed-Salem Ahmed and Matthieu Marbac and Michaël Genin (2021). Detecting Spatial Clusters in Functional Data: New Scan Statistic Approaches. Spatial Statistics, 46.
 ##'
 ##'
 PFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, times = NULL, initialization, permutations){
@@ -283,7 +283,7 @@ PFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, times = NULL, initiali
 ##'
 ##' @return List of objects of class ResScanOutputMultiFunct (one element by method)
 ##'
-##' @references Camille Frévent and Mohamed-Salem Ahmed and Sophie Dabo-Niang and Michaël Genin. Investigating Spatial Scan Statistics for Multivariate Functional Data. Pre-print <arXiv:2103.14401>.
+##' @references Camille Frévent and Mohamed-Salem Ahmed and Sophie Dabo-Niang and Michaël Genin (2023). Investigating Spatial Scan Statistics for Multivariate Functional Data. Journal of the Royal Statistical Society Series C: Applied Statistics, 72(2), 450-475.
 ##'
 ##'
 MPFSS <- function(data, MC = 999, typeI = 0.05, method = c("LH","W","P","R"), nbCPU = 1, variable_names = NULL, times = NULL, initialization, permutations){
@@ -466,7 +466,7 @@ MPFSS <- function(data, MC = 999, typeI = 0.05, method = c("LH","W","P","R"), nb
 ##'
 ##' @return An object of class ResScanOutputUniFunct.
 ##'
-##' @references Camille Frévent and Mohamed-Salem Ahmed and Matthieu Marbac and Michaël Genin. Detecting Spatial Clusters in Functional Data: New Scan Statistic Approaches. Pre-print <arXiv:2011.03482>.
+##' @references Camille Frévent and Mohamed-Salem Ahmed and Matthieu Marbac and Michaël Genin (2021). Detecting Spatial Clusters in Functional Data: New Scan Statistic Approaches. Spatial Statistics, 46.
 ##'
 ##'
 DFFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, times = NULL, initialization, permutations){
@@ -559,7 +559,7 @@ DFFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, times = NULL, initial
 ##'
 ##' @return An object of class ResScanOutputMultiFunct.
 ##'
-##' @references Camille Frévent and Mohamed-Salem Ahmed and Sophie Dabo-Niang and Michaël Genin. Investigating Spatial Scan Statistics for Multivariate Functional Data. Pre-print <arXiv:2103.14401>.
+##' @references  Camille Frévent and Mohamed-Salem Ahmed and Sophie Dabo-Niang and Michaël Genin (2023). Investigating Spatial Scan Statistics for Multivariate Functional Data. Journal of the Royal Statistical Society Series C: Applied Statistics, 72(2), 450-475.
 ##'
 ##'
 MDFFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NULL, times = NULL, initialization, permutations){
@@ -666,7 +666,7 @@ MDFFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NUL
 ##'
 ##' @return An object of class ResScanOutputMultiFunct
 ##'
-##' @references Camille Frévent and Mohamed-Salem Ahmed and Sophie Dabo-Niang and Michaël Genin. Investigating Spatial Scan Statistics for Multivariate Functional Data. Pre-print <arXiv:2103.14401>.
+##' @references Camille Frévent and Mohamed-Salem Ahmed and Sophie Dabo-Niang and Michaël Genin (2023). Investigating Spatial Scan Statistics for Multivariate Functional Data. Journal of the Royal Statistical Society Series C: Applied Statistics, 72(2), 450-475.
 ##'
 ##'
 MRBFSS <- function(data, MC = 999, typeI = 0.05, nbCPU = 1, variable_names = NULL, times = NULL, initialization, permutations){

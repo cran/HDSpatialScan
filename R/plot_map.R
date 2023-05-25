@@ -191,7 +191,7 @@ plot_map2 <- function(spobject, sites_coord, output_clusters, system, colors = "
     }
 
     if(length(colors)==1){
-      c_union <- suppressWarnings(gUnaryUnion(spobject[indices_sites,]))
+      c_union <- suppressWarnings(raster::aggregate(spobject[indices_sites,]))
       adj_color <- adjustcolor(colors, alpha.f = 0.6)
       plot(c_union, add = TRUE, col = adj_color)
 
@@ -204,7 +204,7 @@ plot_map2 <- function(spobject, sites_coord, output_clusters, system, colors = "
         stop("There must be one color or the same number of colors than the number of clusters to be plotted")
       }
 
-      c_union <- suppressWarnings(gUnaryUnion(spobject[indices_sites,]))
+      c_union <- suppressWarnings(raster::aggregate(spobject[indices_sites,]))
       adj_color <- adjustcolor(colors[cl], alpha.f = 0.6)
 
       plot(c_union, add = TRUE, col = adj_color)

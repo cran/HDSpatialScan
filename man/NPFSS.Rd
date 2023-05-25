@@ -39,5 +39,5 @@ An object of class ResScanOutputUniFunct or ResScanOutputMultiFunct depending on
 This function computes the NPFSS (Nonparametric Functional scan statistic for multivariate or univariate functional data).
 }
 \references{
-Zaineb Smida and Lionel Cucala and Ali Gannoun. A Nonparametric Spatial Scan Statistic for Functional Data. Pre-print <https://hal.archives-ouvertes.fr/hal-02908496>.
+Zaineb Smida and Lionel Cucala and Ali Gannoun and Ghislain Durif (2022). A Wilcoxon-Mann-Whitney spatial scan statistic for functional data. Computational Statistics & Data Analysis, 167.
 }

@@ -5,8 +5,8 @@
 ##' \tabular{ll}{
 ##' Package: \tab HDSpatialScan\cr
 ##' Type: \tab Package\cr
-##' Version: \tab 1.0.3\cr
-##' Date: \tab 2022-07-26\cr
+##' Version: \tab 1.0.4\cr
+##' Date: \tab 2023-05-24\cr
 ##' License: \tab GPL-3\cr
 ##' LazyLoad: \tab yes\cr
 ##' }
@@ -29,7 +29,7 @@
 ##' @import sf
 ##' @import fmsb
 ##' @import swfscMisc
-##' @importFrom rgeos gUnaryUnion
+##' @importFrom raster aggregate
 ##' @importFrom graphics legend lines par points
 ##' @importFrom stats quantile sd
 ##' @importFrom grDevices adjustcolor
@@ -48,11 +48,11 @@
 ##'
 ##' Lionel Cucala and Michaël Genin and Florent Occelli and Julien Soula (2019). A Multivariate Nonparametric Scan Statistic for Spatial Data. Spatial statistics, 29, 1-14.
 ##'
-##' Zaineb Smida and Lionel Cucala and Ali Gannoun. A Nonparametric Spatial Scan Statistic for Functional Data. Pre-print.
+##' Camille Frévent and Mohamed-Salem Ahmed and Matthieu Marbac and Michaël Genin (2021). Detecting Spatial Clusters in Functional Data: New Scan Statistic Approaches. Spatial Statistics, 46.
 ##'
-##' Camille Frévent and Mohamed-Salem Ahmed and Matthieu Marbac and Michaël Genin. Detecting Spatial Clusters in Functional Data: New Scan Statistic Approaches. Pre-print.
+##' Zaineb Smida and Lionel Cucala and Ali Gannoun and Ghislain Durif (2022). A Wilcoxon-Mann-Whitney spatial scan statistic for functional data. Computational Statistics & Data Analysis, 167.
 ##'
-##' Camille Frévent and Mohamed-Salem Ahmed and Sophie Dabo-Niang and Michaël Genin. Investigating Spatial Scan Statistics for Multivariate Functional Data. Pre-print.
+##' Camille Frévent and Mohamed-Salem Ahmed and Sophie Dabo-Niang and Michaël Genin (2023). Investigating Spatial Scan Statistics for Multivariate Functional Data. Journal of the Royal Statistical Society Series C: Applied Statistics, 72(2), 450-475.
 ##'
 ##'
 ##'
